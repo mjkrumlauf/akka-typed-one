@@ -9,13 +9,6 @@ plugins {
 
 repositories {
     mavenLocal()
-    maven {
-        url = 'http://nexus.internal.moreover.com/content/groups/public'
-    }
-
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
-    }
 }
 
 dependencies {
@@ -27,11 +20,3 @@ dependencies {
 group = 'org.mjkrumlauf'
 version = '1.0'
 sourceCompatibility = '1.8'
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
