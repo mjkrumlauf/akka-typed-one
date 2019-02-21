@@ -22,14 +22,14 @@ abstract class LightSwitchProtocol {
         }
     }
 
-    static final class TurnOn extends ChangeState implements LightSwitchMessage {
-        public TurnOn(long requestId, ActorRef<StateChanged> replyTo) {
+    static final class SwitchOn extends ChangeState implements LightSwitchMessage {
+        public SwitchOn(long requestId, ActorRef<StateChanged> replyTo) {
             super(requestId, ON, replyTo);
         }
     }
 
-    static final class TurnOff extends ChangeState implements LightSwitchMessage {
-        public TurnOff(long requestId, ActorRef<StateChanged> replyTo) {
+    static final class SwitchOff extends ChangeState implements LightSwitchMessage {
+        public SwitchOff(long requestId, ActorRef<StateChanged> replyTo) {
             super(requestId, OFF, replyTo);
         }
     }

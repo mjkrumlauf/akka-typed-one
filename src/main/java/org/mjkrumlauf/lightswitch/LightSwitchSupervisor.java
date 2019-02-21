@@ -7,15 +7,15 @@ import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
 
-public class OnOffSupervisor extends AbstractBehavior<Void> {
+public class LightSwitchSupervisor extends AbstractBehavior<Void> {
 
     static Behavior<Void> createBehavior() {
-        return Behaviors.setup(OnOffSupervisor::new);
+        return Behaviors.setup(LightSwitchSupervisor::new);
     }
 
     private final ActorContext<Void> context;
 
-    private OnOffSupervisor(ActorContext<Void> context) {
+    private LightSwitchSupervisor(ActorContext<Void> context) {
         this.context = context;
         this.context.getLog().info("OnOff Application started");
     }
@@ -27,7 +27,7 @@ public class OnOffSupervisor extends AbstractBehavior<Void> {
             .build();
     }
 
-    private OnOffSupervisor postStop() {
+    private LightSwitchSupervisor postStop() {
         context.getLog().info("OnOff Application stopped");
         return this;
     }

@@ -39,7 +39,7 @@ public class LightSwitchTest {
         ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(switchId));
 
         long requestId1 = 1L;
-        lightSwitchActor.tell(new TurnOn(requestId1, stateChangedProbe.getRef()));
+        lightSwitchActor.tell(new SwitchOn(requestId1, stateChangedProbe.getRef()));
         assertThat(stateChangedProbe.receiveMessage().requestId, equalTo(requestId1));
 
         long requestId2 = 2L;
@@ -49,7 +49,7 @@ public class LightSwitchTest {
         assertThat(response1.value, equalTo(ON));
 
         long requestId3 = 3L;
-        lightSwitchActor.tell(new TurnOff(requestId3, stateChangedProbe.getRef()));
+        lightSwitchActor.tell(new SwitchOff(requestId3, stateChangedProbe.getRef()));
         assertThat(stateChangedProbe.receiveMessage().requestId, equalTo(requestId3));
 
         long requestId4 = 4L;
