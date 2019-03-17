@@ -22,7 +22,7 @@ public class LightSwitchSupervisor extends AbstractBehavior<Void> {
 
     @Override
     public Receive<Void> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
             .onSignal(PostStop.class, signal -> postStop())
             .build();
     }

@@ -14,7 +14,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.*;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupQueryMessage;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceNotAvailable;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceTimedOut;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RespondAllTemperatures;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.Temperature;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.TemperatureNotAvailable;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.TemperatureReading;
 
 // #query-full
 // #query-outline
@@ -104,7 +110,7 @@ public class DeviceGroupQuery extends AbstractBehavior<DeviceGroupQueryMessage> 
     // #query-state
     @Override
     public Receive<DeviceGroupQueryMessage> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
                 .onMessage(WrappedRespondTemperature.class, this::onRespondTemperature)
                 .onMessage(DeviceTerminated.class, this::onDeviceTerminated)
                 .onMessage(CollectionTimeout.class, this::onCollectionTimeout)

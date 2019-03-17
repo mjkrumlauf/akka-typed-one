@@ -7,7 +7,11 @@ import akka.actor.typed.javadsl.AbstractBehavior;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.*;
+import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupMessage;
+import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceRegistered;
+import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.ReplyDeviceList;
+import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestDeviceList;
+import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestTrackDevice;
 import org.mjkrumlauf.akkatyped.DeviceProtocol.DeviceMessage;
 
 import java.util.HashMap;
@@ -100,7 +104,7 @@ public class DeviceGroup extends AbstractBehavior<DeviceGroupMessage> {
 
     @Override
     public Receive<DeviceGroupMessage> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
                 .onMessage(RequestTrackDevice.class, this::onTrackDevice)
                 // #device-group-register
                 // #device-group-remove

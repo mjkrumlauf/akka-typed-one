@@ -9,7 +9,12 @@ import akka.actor.typed.javadsl.Receive;
 
 import java.util.Optional;
 
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.*;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.DeviceMessage;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.Passivate;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.ReadTemperature;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.RecordTemperature;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.RespondTemperature;
+import static org.mjkrumlauf.akkatyped.DeviceProtocol.TemperatureRecorded;
 
 public class Device extends AbstractBehavior<DeviceMessage> {
 
@@ -33,7 +38,7 @@ public class Device extends AbstractBehavior<DeviceMessage> {
 
     @Override
     public Receive<DeviceMessage> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
                 .onMessage(RecordTemperature.class, this::recordTemperature)
                 .onMessage(ReadTemperature.class, this::readTemperature)
                 .onMessage(Passivate.class, m -> Behaviors.stopped())

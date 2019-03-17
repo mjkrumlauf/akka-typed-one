@@ -12,7 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.*;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupMessage;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceManagerMessage;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.ReplyDeviceList;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestDeviceList;
+import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestTrackDevice;
 
 // #device-manager-full
 public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
@@ -70,7 +74,7 @@ public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
     }
 
     public Receive<DeviceManagerMessage> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
                 .onMessage(RequestTrackDevice.class, this::onTrackDevice)
                 .onMessage(RequestDeviceList.class, this::onRequestDeviceList)
                 .onMessage(DeviceGroupTerminated.class, this::onTerminated)

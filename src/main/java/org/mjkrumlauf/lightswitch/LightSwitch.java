@@ -1,14 +1,19 @@
 package org.mjkrumlauf.lightswitch;
 
-import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.*;
-import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.*;
-
 import akka.actor.typed.Behavior;
 import akka.actor.typed.PostStop;
 import akka.actor.typed.javadsl.AbstractBehavior;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
+
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.ChangeState;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetState;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateResponse;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.LightSwitchMessage;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.StateChanged;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
 
 public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
@@ -29,7 +34,7 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
     @Override
     public Receive<LightSwitchMessage> createReceive() {
-        return receiveBuilder()
+        return newReceiveBuilder()
             .onMessage(ChangeState.class, this::changeState)
             .onMessage(GetState.class, this::getState)
             .onSignal(PostStop.class, signal -> postStop())
