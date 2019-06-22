@@ -7,6 +7,8 @@ import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
 
+import java.util.UUID;
+
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.ChangeState;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetState;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateResponse;
@@ -17,16 +19,16 @@ import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
 
 public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
-    public static Behavior<LightSwitchMessage> createBehavior(long switchId) {
+    public static Behavior<LightSwitchMessage> createBehavior(UUID switchId) {
         return Behaviors.setup(context -> new LightSwitch(context, switchId));
     }
 
     private final ActorContext<LightSwitchMessage> context;
-    private final long switchId;
+    private final UUID switchId;
 
     private SwitchState lastSwitchState;
 
-    private LightSwitch(ActorContext<LightSwitchMessage> context, long switchId) {
+    private LightSwitch(ActorContext<LightSwitchMessage> context, UUID switchId) {
         this.context = context;
         this.switchId = switchId;
         this.lastSwitchState = OFF;
@@ -43,7 +45,7 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
     }
 
     private Behavior<LightSwitchMessage> changeState(ChangeState msg) {
-        lastSwitchState = msg.value;
+        lastSwitchState = msg.switchState;
         msg.replyTo.tell(new StateChanged(msg.requestId));
         return this;
     }

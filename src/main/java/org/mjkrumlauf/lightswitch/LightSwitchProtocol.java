@@ -9,16 +9,18 @@ abstract class LightSwitchProtocol {
 
     enum SwitchState { ON, OFF }
 
+    // All LightSwitch messages must implement LightSwitchMessage
     interface LightSwitchMessage {}
 
+    // Base class for all messages that change the LightSwitch state
     abstract static class ChangeState implements LightSwitchMessage {
         final long requestId;
-        final SwitchState value;
+        final SwitchState switchState;
         final ActorRef<StateChanged> replyTo;
 
-        ChangeState(long requestId, SwitchState value, ActorRef<StateChanged> replyTo) {
+        ChangeState(long requestId, SwitchState switchState, ActorRef<StateChanged> replyTo) {
             this.requestId = requestId;
-            this.value = value;
+            this.switchState = switchState;
             this.replyTo = replyTo;
         }
     }
@@ -56,11 +58,11 @@ abstract class LightSwitchProtocol {
 
     static final class GetStateResponse {
         final long requestId;
-        final SwitchState value;
+        final SwitchState switchState;
 
-        GetStateResponse(long requestId, SwitchState value) {
+        GetStateResponse(long requestId, SwitchState switchState) {
             this.requestId = requestId;
-            this.value = value;
+            this.switchState = switchState;
         }
     }
 
