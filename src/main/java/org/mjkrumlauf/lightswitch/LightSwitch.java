@@ -22,13 +22,14 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
     }
 
     private final ActorContext<LightSwitchMessage> context;
-    private long switchId;
-    private SwitchState lastSwitchState = OFF;
+    private final long switchId;
 
-    public LightSwitch(ActorContext<LightSwitchMessage> context, long switchId) {
+    private SwitchState lastSwitchState;
+
+    private LightSwitch(ActorContext<LightSwitchMessage> context, long switchId) {
         this.context = context;
         this.switchId = switchId;
-
+        this.lastSwitchState = OFF;
         this.context.getLog().info("LightSwitch actor {} started", switchId);
     }
 
@@ -41,9 +42,9 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
             .build();
     }
 
-    private Behavior<LightSwitchMessage> changeState(ChangeState r) {
-        lastSwitchState = r.value;
-        r.replyTo.tell(new StateChanged(r.requestId));
+    private Behavior<LightSwitchMessage> changeState(ChangeState msg) {
+        lastSwitchState = msg.value;
+        msg.replyTo.tell(new StateChanged(msg.requestId));
         return this;
     }
 

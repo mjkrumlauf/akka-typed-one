@@ -1,16 +1,21 @@
 package org.mjkrumlauf.lightswitch;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.*;
-
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.mjkrumlauf.lightswitch.LightSwitchProtocol.*;
-
 import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 import akka.actor.testkit.typed.javadsl.TestProbe;
 import akka.actor.typed.ActorRef;
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetState;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateResponse;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.LightSwitchMessage;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.StateChanged;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchOff;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchOn;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.ON;
 
 public class LightSwitchTest {
 
@@ -20,7 +25,7 @@ public class LightSwitchTest {
     @Test
     public void mustReplyWithDefaultState() {
         TestProbe<GetStateResponse> probe = testKit.createTestProbe(GetStateResponse.class);
-        long switchId = 0L;
+        long switchId = 100L;
 
         ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(switchId));
 
@@ -35,7 +40,7 @@ public class LightSwitchTest {
     public void mustChangeStateAndReport() {
         TestProbe<StateChanged> stateChangedProbe = testKit.createTestProbe(StateChanged.class);
         TestProbe<GetStateResponse> responseProbe = testKit.createTestProbe(GetStateResponse.class);
-        long switchId = 0L;
+        long switchId = 200L;
         ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(switchId));
 
         long requestId1 = 1L;

@@ -1,8 +1,9 @@
 package org.mjkrumlauf.lightswitch;
 
-import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.*;
-
 import akka.actor.typed.ActorRef;
+
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.ON;
 
 abstract class LightSwitchProtocol {
 
@@ -15,7 +16,7 @@ abstract class LightSwitchProtocol {
         final SwitchState value;
         final ActorRef<StateChanged> replyTo;
 
-        public ChangeState(long requestId, SwitchState value, ActorRef<StateChanged> replyTo) {
+        ChangeState(long requestId, SwitchState value, ActorRef<StateChanged> replyTo) {
             this.requestId = requestId;
             this.value = value;
             this.replyTo = replyTo;
@@ -34,14 +35,6 @@ abstract class LightSwitchProtocol {
         }
     }
 
-    static final class StateChanged {
-        final long requestId;
-
-        public StateChanged(long requestId) {
-            this.requestId = requestId;
-        }
-    }
-
     static final class GetState implements LightSwitchMessage {
         final long requestId;
         final ActorRef<GetStateResponse> replyTo;
@@ -52,11 +45,20 @@ abstract class LightSwitchProtocol {
         }
     }
 
+
+    static final class StateChanged {
+        final long requestId;
+
+        StateChanged(long requestId) {
+            this.requestId = requestId;
+        }
+    }
+
     static final class GetStateResponse {
         final long requestId;
         final SwitchState value;
 
-        public GetStateResponse(long requestId, SwitchState value) {
+        GetStateResponse(long requestId, SwitchState value) {
             this.requestId = requestId;
             this.value = value;
         }
