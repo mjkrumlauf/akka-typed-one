@@ -1,7 +1,7 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.ActorRef;
-import org.mjkrumlauf.akkatyped.DeviceProtocol.DeviceMessage;
+import org.mjkrumlauf.iot.DeviceProtocol.DeviceMessage;
 
 import java.util.Map;
 import java.util.Set;

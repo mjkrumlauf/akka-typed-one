@@ -1,4 +1,4 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.Behavior;
 import akka.actor.typed.PostStop;

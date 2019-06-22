@@ -1,4 +1,4 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.Behavior;
 import akka.actor.typed.PostStop;
@@ -9,12 +9,12 @@ import akka.actor.typed.javadsl.Receive;
 
 import java.util.Optional;
 
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.DeviceMessage;
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.Passivate;
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.ReadTemperature;
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.RecordTemperature;
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.RespondTemperature;
-import static org.mjkrumlauf.akkatyped.DeviceProtocol.TemperatureRecorded;
+import static org.mjkrumlauf.iot.DeviceProtocol.DeviceMessage;
+import static org.mjkrumlauf.iot.DeviceProtocol.Passivate;
+import static org.mjkrumlauf.iot.DeviceProtocol.ReadTemperature;
+import static org.mjkrumlauf.iot.DeviceProtocol.RecordTemperature;
+import static org.mjkrumlauf.iot.DeviceProtocol.RespondTemperature;
+import static org.mjkrumlauf.iot.DeviceProtocol.TemperatureRecorded;
 
 public class Device extends AbstractBehavior<DeviceMessage> {
 

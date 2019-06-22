@@ -1,12 +1,21 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 import akka.actor.testkit.typed.javadsl.TestProbe;
 import akka.actor.typed.ActorRef;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.*;
-import org.mjkrumlauf.akkatyped.DeviceProtocol.*;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceGroupMessage;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceRegistered;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.ReplyDeviceList;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.RequestDeviceList;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.RequestTrackDevice;
+import org.mjkrumlauf.iot.DeviceProtocol.DeviceMessage;
+import org.mjkrumlauf.iot.DeviceProtocol.Passivate;
+import org.mjkrumlauf.iot.DeviceProtocol.ReadTemperature;
+import org.mjkrumlauf.iot.DeviceProtocol.RecordTemperature;
+import org.mjkrumlauf.iot.DeviceProtocol.RespondTemperature;
+import org.mjkrumlauf.iot.DeviceProtocol.TemperatureRecorded;
 
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
@@ -14,13 +14,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupQueryMessage;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceNotAvailable;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceTimedOut;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RespondAllTemperatures;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.Temperature;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.TemperatureNotAvailable;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.TemperatureReading;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceGroupQueryMessage;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceNotAvailable;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceTimedOut;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.RespondAllTemperatures;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.Temperature;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.TemperatureNotAvailable;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.TemperatureReading;
 
 // #query-full
 // #query-outline

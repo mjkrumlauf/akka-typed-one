@@ -1,4 +1,4 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
@@ -7,12 +7,12 @@ import akka.actor.typed.javadsl.AbstractBehavior;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupMessage;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceRegistered;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.ReplyDeviceList;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestDeviceList;
-import org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestTrackDevice;
-import org.mjkrumlauf.akkatyped.DeviceProtocol.DeviceMessage;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceGroupMessage;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceRegistered;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.ReplyDeviceList;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.RequestDeviceList;
+import org.mjkrumlauf.iot.DeviceManagerProtocol.RequestTrackDevice;
+import org.mjkrumlauf.iot.DeviceProtocol.DeviceMessage;
 
 import java.util.HashMap;
 import java.util.Map;

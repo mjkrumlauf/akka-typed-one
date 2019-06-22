@@ -1,4 +1,4 @@
-package org.mjkrumlauf.akkatyped;
+package org.mjkrumlauf.iot;
 
 import akka.actor.typed.ActorRef;
 import akka.actor.typed.Behavior;
@@ -12,11 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceGroupMessage;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.DeviceManagerMessage;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.ReplyDeviceList;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestDeviceList;
-import static org.mjkrumlauf.akkatyped.DeviceManagerProtocol.RequestTrackDevice;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceGroupMessage;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.DeviceManagerMessage;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.ReplyDeviceList;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.RequestDeviceList;
+import static org.mjkrumlauf.iot.DeviceManagerProtocol.RequestTrackDevice;
 
 // #device-manager-full
 public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
