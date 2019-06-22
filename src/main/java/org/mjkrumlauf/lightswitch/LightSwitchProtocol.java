@@ -5,6 +5,11 @@ import akka.actor.typed.ActorRef;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.ON;
 
+/**
+ * Defines the state and communications protocol of interacting
+ * with the {@link LightSwitch}; modeling the state, changing the state,
+ * and querying the state of the {@link LightSwitch}.
+ */
 abstract class LightSwitchProtocol {
 
     enum SwitchState { ON, OFF }
@@ -37,11 +42,11 @@ abstract class LightSwitchProtocol {
         }
     }
 
-    static final class GetState implements LightSwitchMessage {
+    static final class GetStateRequest implements LightSwitchMessage {
         final long requestId;
         final ActorRef<GetStateResponse> replyTo;
 
-        public GetState(long requestId, ActorRef<GetStateResponse> replyTo) {
+        public GetStateRequest(long requestId, ActorRef<GetStateResponse> replyTo) {
             this.requestId = requestId;
             this.replyTo = replyTo;
         }

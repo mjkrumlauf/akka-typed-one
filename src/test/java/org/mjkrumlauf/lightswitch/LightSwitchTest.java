@@ -6,7 +6,7 @@ import akka.actor.testkit.typed.javadsl.TestProbe;
 import akka.actor.typed.ActorRef;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetState;
+import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateRequest;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateResponse;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.LightSwitchMessage;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.StateChanged;
@@ -34,7 +34,7 @@ public class LightSwitchTest {
 
         // Query LightSwitch state - must be OFF by default
         long requestId = 1L;
-        lightSwitchActor.tell(new GetState(requestId, probe.getRef()));
+        lightSwitchActor.tell(new GetStateRequest(requestId, probe.getRef()));
         GetStateResponse response = probe.receiveMessage();
         assertThat(response.requestId, equalTo(requestId));
         assertThat(response.switchState, equalTo(OFF));
@@ -54,7 +54,7 @@ public class LightSwitchTest {
 
         // Query LightSwitch state - must be ON
         long requestId2 = 2L;
-        lightSwitchActor.tell(new GetState(requestId2, responseProbe.getRef()));
+        lightSwitchActor.tell(new GetStateRequest(requestId2, responseProbe.getRef()));
         GetStateResponse response1 = responseProbe.receiveMessage();
         assertThat(response1.requestId, equalTo(requestId2));
         assertThat(response1.switchState, equalTo(ON));
@@ -66,7 +66,7 @@ public class LightSwitchTest {
 
         // Query LightSwitch state - must be OFF
         long requestId4 = 4L;
-        lightSwitchActor.tell(new GetState(requestId4, responseProbe.getRef()));
+        lightSwitchActor.tell(new GetStateRequest(requestId4, responseProbe.getRef()));
         GetStateResponse response2 = responseProbe.receiveMessage();
         assertThat(response2.requestId, equalTo(requestId4));
         assertThat(response2.switchState, equalTo(OFF));

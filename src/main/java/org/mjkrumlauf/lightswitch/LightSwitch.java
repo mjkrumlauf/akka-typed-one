@@ -10,13 +10,16 @@ import akka.actor.typed.javadsl.Receive;
 import java.util.UUID;
 
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.ChangeState;
-import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetState;
+import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateRequest;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateResponse;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.LightSwitchMessage;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.StateChanged;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
 
+/**
+ * This actor models the state and behavior of a simple two-state light switch.
+ */
 public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
     public static Behavior<LightSwitchMessage> createBehavior(UUID switchId) {
@@ -39,7 +42,7 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
     public Receive<LightSwitchMessage> createReceive() {
         return newReceiveBuilder()
             .onMessage(ChangeState.class, this::changeState)
-            .onMessage(GetState.class, this::getState)
+            .onMessage(GetStateRequest.class, this::getState)
             .onSignal(PostStop.class, signal -> postStop())
             .build();
     }
@@ -50,7 +53,7 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
         return this;
     }
 
-    private Behavior<LightSwitchMessage> getState(GetState msg) {
+    private Behavior<LightSwitchMessage> getState(GetStateRequest msg) {
         context.getLog().info("LightSwitch is {}, requestId {}", lastSwitchState, msg.requestId);
         msg.replyTo.tell(new GetStateResponse(msg.requestId, lastSwitchState));
         return this;
