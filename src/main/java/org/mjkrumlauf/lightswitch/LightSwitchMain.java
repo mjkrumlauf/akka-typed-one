@@ -5,6 +5,6 @@ import akka.actor.typed.ActorSystem;
 public class LightSwitchMain {
 
     public static void main(String[] args) {
-        ActorSystem.create(LightSwitchSupervisor.createBehavior(), "on-off-system");
+        ActorSystem.create(LightSwitchSupervisor.createBehavior(), "light-switch-system");
     }
 }

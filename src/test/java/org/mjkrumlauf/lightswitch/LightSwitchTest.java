@@ -13,8 +13,6 @@ import org.mjkrumlauf.lightswitch.LightSwitchProtocol.StateChanged;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchOff;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchOn;
 
-import java.util.UUID;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
@@ -28,9 +26,8 @@ public class LightSwitchTest {
     @Test
     public void mustReplyWithDefaultState() {
         TestProbe<GetStateResponse> probe = testKit.createTestProbe(GetStateResponse.class);
-        UUID switchId = UUID.randomUUID();
 
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(switchId));
+        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
 
         // Query LightSwitch state - must be OFF by default
         long requestId = 1L;
@@ -44,8 +41,7 @@ public class LightSwitchTest {
     public void mustChangeStateAndReport() {
         TestProbe<StateChanged> stateChangedProbe = testKit.createTestProbe(StateChanged.class);
         TestProbe<GetStateResponse> responseProbe = testKit.createTestProbe(GetStateResponse.class);
-        UUID switchId = UUID.randomUUID();
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(switchId));
+        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
 
         // Turn LightSwitch ON
         long requestId1 = 1L;
@@ -75,7 +71,7 @@ public class LightSwitchTest {
     @Test(expected = InvalidMessageException.class)
     public void mustNotSendNullStateChangeMessageToLightSwitch() {
         // Null state change message not allowed
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior(UUID.randomUUID()));
+        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
         lightSwitchActor.tell(null);
     }
 }

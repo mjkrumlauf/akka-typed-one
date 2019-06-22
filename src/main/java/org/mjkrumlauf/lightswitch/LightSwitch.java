@@ -22,8 +22,8 @@ import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.OFF;
  */
 public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
-    public static Behavior<LightSwitchMessage> createBehavior(UUID switchId) {
-        return Behaviors.setup(context -> new LightSwitch(context, switchId));
+    public static Behavior<LightSwitchMessage> createBehavior() {
+        return Behaviors.setup(LightSwitch::new);
     }
 
     private final ActorContext<LightSwitchMessage> context;
@@ -31,9 +31,9 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
     private SwitchState lastSwitchState;
 
-    private LightSwitch(ActorContext<LightSwitchMessage> context, UUID switchId) {
+    private LightSwitch(ActorContext<LightSwitchMessage> context) {
         this.context = context;
-        this.switchId = switchId;
+        this.switchId = UUID.randomUUID();
         this.lastSwitchState = OFF;
         this.context.getLog().info("LightSwitch actor {} started", switchId);
     }
