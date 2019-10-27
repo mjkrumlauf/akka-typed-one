@@ -10,15 +10,16 @@ import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.ON;
  * with the {@link LightSwitch}; modeling the state, changing the state,
  * and querying the state of the {@link LightSwitch}.
  */
-abstract class LightSwitchProtocol {
+interface LightSwitchProtocol {
 
+    // Represents the state of the LightSwitch
     enum SwitchState { ON, OFF }
 
     // All LightSwitch messages must implement LightSwitchMessage
     interface LightSwitchMessage {}
 
     // Base class for all messages that change the LightSwitch state
-    abstract static class ChangeState implements LightSwitchMessage {
+    abstract class ChangeState implements LightSwitchMessage {
         final long requestId;
         final SwitchState switchState;
         final ActorRef<StateChanged> replyTo;
@@ -30,19 +31,22 @@ abstract class LightSwitchProtocol {
         }
     }
 
-    static final class SwitchOn extends ChangeState implements LightSwitchMessage {
+    // Command message to set the state of a LightSwitch to "on"
+    final class SwitchOn extends ChangeState implements LightSwitchMessage {
         public SwitchOn(long requestId, ActorRef<StateChanged> replyTo) {
             super(requestId, ON, replyTo);
         }
     }
 
-    static final class SwitchOff extends ChangeState implements LightSwitchMessage {
+    // Command message to set the state of a LightSwitch to "off"
+    final class SwitchOff extends ChangeState implements LightSwitchMessage {
         public SwitchOff(long requestId, ActorRef<StateChanged> replyTo) {
             super(requestId, OFF, replyTo);
         }
     }
 
-    static final class GetStateRequest implements LightSwitchMessage {
+    // Query message to query the state of a LightSwitch
+    final class GetStateRequest implements LightSwitchMessage {
         final long requestId;
         final ActorRef<GetStateResponse> replyTo;
 
@@ -52,8 +56,8 @@ abstract class LightSwitchProtocol {
         }
     }
 
-
-    static final class StateChanged {
+    // Reply message to indicate that the state of a LightSwitch has changed
+    final class StateChanged {
         final long requestId;
 
         StateChanged(long requestId) {
@@ -61,7 +65,8 @@ abstract class LightSwitchProtocol {
         }
     }
 
-    static final class GetStateResponse {
+    // Reply message containing the current state of a LightSwitch
+    final class GetStateResponse {
         final long requestId;
         final SwitchState switchState;
 
@@ -70,6 +75,4 @@ abstract class LightSwitchProtocol {
             this.switchState = switchState;
         }
     }
-
-    private LightSwitchProtocol() {}
 }

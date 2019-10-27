@@ -4,6 +4,7 @@ import akka.actor.InvalidMessageException;
 import akka.actor.testkit.typed.javadsl.TestKitJunitResource;
 import akka.actor.testkit.typed.javadsl.TestProbe;
 import akka.actor.typed.ActorRef;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mjkrumlauf.lightswitch.LightSwitchProtocol.GetStateRequest;
@@ -22,17 +23,21 @@ public class LightSwitchTest {
 
     @ClassRule
     public static final TestKitJunitResource testKit = new TestKitJunitResource();
+    private ActorRef<LightSwitchMessage> lightSwitchActor;
+
+    @Before
+    public void setUp() throws Exception {
+        lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
+    }
 
     @Test
     public void mustReplyWithDefaultState() {
-        TestProbe<GetStateResponse> probe = testKit.createTestProbe(GetStateResponse.class);
-
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
+        TestProbe<GetStateResponse> responseProbe = testKit.createTestProbe(GetStateResponse.class);
 
         // Query LightSwitch state - must be OFF by default
         long requestId = 1L;
-        lightSwitchActor.tell(new GetStateRequest(requestId, probe.getRef()));
-        GetStateResponse response = probe.receiveMessage();
+        lightSwitchActor.tell(new GetStateRequest(requestId, responseProbe.getRef()));
+        GetStateResponse response = responseProbe.receiveMessage();
         assertThat(response.requestId, equalTo(requestId));
         assertThat(response.switchState, equalTo(OFF));
     }
@@ -41,7 +46,6 @@ public class LightSwitchTest {
     public void mustChangeStateAndReport() {
         TestProbe<StateChanged> stateChangedProbe = testKit.createTestProbe(StateChanged.class);
         TestProbe<GetStateResponse> responseProbe = testKit.createTestProbe(GetStateResponse.class);
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
 
         // Turn LightSwitch ON
         long requestId1 = 1L;
@@ -71,7 +75,6 @@ public class LightSwitchTest {
     @Test(expected = InvalidMessageException.class)
     public void mustNotSendNullStateChangeMessageToLightSwitch() {
         // Null state change message not allowed
-        ActorRef<LightSwitchMessage> lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
         lightSwitchActor.tell(null);
     }
 }

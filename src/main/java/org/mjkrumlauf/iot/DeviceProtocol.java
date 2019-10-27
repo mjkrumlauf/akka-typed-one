@@ -4,11 +4,13 @@ import akka.actor.typed.ActorRef;
 
 import java.util.Optional;
 
-abstract class DeviceProtocol {
+interface DeviceProtocol {
 
+    // All Device messages implement this interface
     interface DeviceMessage {}
 
-    static final class RecordTemperature implements DeviceMessage {
+    // Command message to record the temperature of a Device
+    final class RecordTemperature implements DeviceMessage {
         final long requestId;
         final double value;
         final ActorRef<TemperatureRecorded> replyTo;
@@ -20,8 +22,8 @@ abstract class DeviceProtocol {
         }
     }
 
-
-    static final class TemperatureRecorded {
+    // Reply message to indicate that a Device temperature has been recorded
+    final class TemperatureRecorded {
         final long requestId;
 
         TemperatureRecorded(long requestId) {
@@ -29,8 +31,8 @@ abstract class DeviceProtocol {
         }
     }
 
-
-    static final class ReadTemperature implements DeviceMessage {
+    // Command message to query the temperature of a Device
+    final class ReadTemperature implements DeviceMessage {
         final long requestId;
         final ActorRef<RespondTemperature> replyTo;
 
@@ -40,8 +42,8 @@ abstract class DeviceProtocol {
         }
     }
 
-
-    static final class RespondTemperature {
+    // Reply message containing the temperature of the Device indicated by deviceId
+    final class RespondTemperature {
         final long requestId;
         final String deviceId;
         final Optional<Double> value;
@@ -53,10 +55,6 @@ abstract class DeviceProtocol {
         }
     }
 
-
+    // Command message to shut down (passivate) a Device
     enum Passivate implements DeviceMessage { INSTANCE }
-
-    // no instances of DeviceProtocol class
-    private DeviceProtocol() {}
-
 }

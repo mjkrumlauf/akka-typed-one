@@ -6,15 +6,13 @@ import org.mjkrumlauf.iot.DeviceProtocol.DeviceMessage;
 import java.util.Map;
 import java.util.Set;
 
-abstract class DeviceManagerProtocol {
-    // no instances of DeviceManagerProtocol class
-    private DeviceManagerProtocol() {}
+interface DeviceManagerProtocol {
 
     interface DeviceManagerMessage {}
 
     interface DeviceGroupMessage {}
 
-    public static final class RequestTrackDevice implements DeviceManagerMessage, DeviceGroupMessage {
+    final class RequestTrackDevice implements DeviceManagerMessage, DeviceGroupMessage {
         public final String groupId;
         public final String deviceId;
         public final ActorRef<DeviceRegistered> replyTo;
@@ -26,7 +24,7 @@ abstract class DeviceManagerProtocol {
         }
     }
 
-    public static final class DeviceRegistered {
+    final class DeviceRegistered {
         public final ActorRef<DeviceMessage> device;
 
         public DeviceRegistered(ActorRef<DeviceMessage> device) {
@@ -34,7 +32,7 @@ abstract class DeviceManagerProtocol {
         }
     }
 
-    public static final class RequestDeviceList implements DeviceManagerMessage, DeviceGroupMessage {
+    final class RequestDeviceList implements DeviceManagerMessage, DeviceGroupMessage {
         final long requestId;
         final String groupId;
         final ActorRef<ReplyDeviceList> replyTo;
@@ -48,7 +46,7 @@ abstract class DeviceManagerProtocol {
     }
 
 
-    public static final class ReplyDeviceList {
+    final class ReplyDeviceList {
         final long requestId;
         final Set<String> ids;
 
@@ -62,7 +60,7 @@ abstract class DeviceManagerProtocol {
     interface DeviceGroupQueryMessage {}
 
 
-    public static final class RequestAllTemperatures
+    final class RequestAllTemperatures
             implements DeviceGroupQueryMessage, DeviceGroupMessage, DeviceManagerMessage {
 
 
@@ -80,22 +78,22 @@ abstract class DeviceManagerProtocol {
     }
 
 
-    public static final class RespondAllTemperatures {
+    final class RespondAllTemperatures {
         final long requestId;
         final Map<String, TemperatureReading> temperatures;
 
 
-        public RespondAllTemperatures(long requestId, Map<String, TemperatureReading> temperatures) {
+        RespondAllTemperatures(long requestId, Map<String, TemperatureReading> temperatures) {
             this.requestId = requestId;
             this.temperatures = temperatures;
         }
     }
 
 
-    public interface TemperatureReading {}
+    interface TemperatureReading {}
 
 
-    public static final class Temperature implements TemperatureReading {
+    final class Temperature implements TemperatureReading {
         public final double value;
 
 
@@ -131,17 +129,11 @@ abstract class DeviceManagerProtocol {
     }
 
 
-    public enum TemperatureNotAvailable implements TemperatureReading {
-        INSTANCE
-    }
+    enum TemperatureNotAvailable implements TemperatureReading { INSTANCE }
 
 
-    public enum DeviceNotAvailable implements TemperatureReading {
-        INSTANCE
-    }
+    enum DeviceNotAvailable implements TemperatureReading { INSTANCE }
 
 
-    public enum DeviceTimedOut implements TemperatureReading {
-        INSTANCE
-    }
+    enum DeviceTimedOut implements TemperatureReading { INSTANCE }
 }

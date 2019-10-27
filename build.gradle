@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.typesafe.akka:akka-actor-typed_2.13:2.5.23'
-    testCompile 'com.typesafe.akka:akka-actor-testkit-typed_2.13:2.5.23'
+    compile 'com.typesafe.akka:akka-actor-typed_2.13:2.5.26'
+    testCompile 'com.typesafe.akka:akka-actor-testkit-typed_2.13:2.5.26'
     testCompile 'junit:junit:4.12'
 }
 
