@@ -23,11 +23,11 @@ public class LightSwitchTest {
 
     @ClassRule
     public static final TestKitJunitResource testKit = new TestKitJunitResource();
-    private ActorRef<LightSwitchMessage> lightSwitchActor;
+    private ActorRef<LightSwitchMessage> lightSwitch;
 
     @Before
     public void setUp() throws Exception {
-        lightSwitchActor = testKit.spawn(LightSwitch.createBehavior());
+        lightSwitch = testKit.spawn(LightSwitch.createBehavior());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class LightSwitchTest {
 
         // Query LightSwitch state - must be OFF by default
         long requestId = 1L;
-        lightSwitchActor.tell(new GetStateRequest(requestId, responseProbe.getRef()));
+        lightSwitch.tell(new GetStateRequest(requestId, responseProbe.getRef()));
         GetStateResponse response = responseProbe.receiveMessage();
         assertThat(response.requestId, equalTo(requestId));
         assertThat(response.switchState, equalTo(OFF));
@@ -49,32 +49,36 @@ public class LightSwitchTest {
 
         // Turn LightSwitch ON
         long requestId1 = 1L;
-        lightSwitchActor.tell(new SwitchOn(requestId1, stateChangedProbe.getRef()));
-        assertThat(stateChangedProbe.receiveMessage().requestId, equalTo(requestId1));
+        lightSwitch.tell(new SwitchOn(requestId1, stateChangedProbe.getRef()));
+        final StateChanged stateChanged1 = stateChangedProbe.receiveMessage();
+        assertThat(stateChanged1.requestId, equalTo(requestId1));
+        assertThat(stateChanged1.switchState, equalTo(ON));
 
         // Query LightSwitch state - must be ON
         long requestId2 = 2L;
-        lightSwitchActor.tell(new GetStateRequest(requestId2, responseProbe.getRef()));
-        GetStateResponse response1 = responseProbe.receiveMessage();
-        assertThat(response1.requestId, equalTo(requestId2));
-        assertThat(response1.switchState, equalTo(ON));
+        lightSwitch.tell(new GetStateRequest(requestId2, responseProbe.getRef()));
+        GetStateResponse response2 = responseProbe.receiveMessage();
+        assertThat(response2.requestId, equalTo(requestId2));
+        assertThat(response2.switchState, equalTo(ON));
 
         // Turn LightSwitch OFF
         long requestId3 = 3L;
-        lightSwitchActor.tell(new SwitchOff(requestId3, stateChangedProbe.getRef()));
-        assertThat(stateChangedProbe.receiveMessage().requestId, equalTo(requestId3));
+        lightSwitch.tell(new SwitchOff(requestId3, stateChangedProbe.getRef()));
+        final StateChanged stateChanged3 = stateChangedProbe.receiveMessage();
+        assertThat(stateChanged3.requestId, equalTo(requestId3));
+        assertThat(stateChanged3.switchState, equalTo(OFF));
 
         // Query LightSwitch state - must be OFF
         long requestId4 = 4L;
-        lightSwitchActor.tell(new GetStateRequest(requestId4, responseProbe.getRef()));
-        GetStateResponse response2 = responseProbe.receiveMessage();
-        assertThat(response2.requestId, equalTo(requestId4));
-        assertThat(response2.switchState, equalTo(OFF));
+        lightSwitch.tell(new GetStateRequest(requestId4, responseProbe.getRef()));
+        GetStateResponse response4 = responseProbe.receiveMessage();
+        assertThat(response4.requestId, equalTo(requestId4));
+        assertThat(response4.switchState, equalTo(OFF));
     }
 
     @Test(expected = InvalidMessageException.class)
     public void mustNotSendNullStateChangeMessageToLightSwitch() {
         // Null state change message not allowed
-        lightSwitchActor.tell(null);
+        lightSwitch.tell(null);
     }
 }

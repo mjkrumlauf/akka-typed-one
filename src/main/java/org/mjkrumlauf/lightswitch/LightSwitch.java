@@ -49,7 +49,7 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
 
     private Behavior<LightSwitchMessage> changeState(ChangeState msg) {
         lastSwitchState = msg.switchState;
-        msg.replyTo.tell(new StateChanged(msg.requestId));
+        msg.replyTo.tell(new StateChanged(msg.requestId, msg.switchState));
         return this;
     }
 

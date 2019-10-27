@@ -59,9 +59,11 @@ interface LightSwitchProtocol {
     // Reply message to indicate that the state of a LightSwitch has changed
     final class StateChanged {
         final long requestId;
+        final SwitchState switchState;
 
-        StateChanged(long requestId) {
+        StateChanged(long requestId, SwitchState switchState) {
             this.requestId = requestId;
+            this.switchState = switchState;
         }
     }
 
