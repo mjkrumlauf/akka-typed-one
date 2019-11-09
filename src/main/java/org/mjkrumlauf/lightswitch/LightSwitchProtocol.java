@@ -13,7 +13,7 @@ import static org.mjkrumlauf.lightswitch.LightSwitchProtocol.SwitchState.ON;
 interface LightSwitchProtocol {
 
     // Represents the state of the LightSwitch
-    enum SwitchState { ON, OFF }
+    enum SwitchState { OFF, ON }
 
     // All LightSwitch messages must implement LightSwitchMessage
     interface LightSwitchMessage {}
