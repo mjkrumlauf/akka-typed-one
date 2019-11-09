@@ -85,6 +85,7 @@ public class DeviceGroupQuery extends AbstractBehavior<DeviceGroupQueryMessage> 
             Duration timeout,
             ActorContext<DeviceGroupQueryMessage> context,
             TimerScheduler<DeviceGroupQueryMessage> timers) {
+        super(context);
         this.requestId = requestId;
         this.requester = requester;
 
@@ -99,7 +100,7 @@ public class DeviceGroupQuery extends AbstractBehavior<DeviceGroupQueryMessage> 
 
         for (Map.Entry<String, ActorRef<DeviceProtocol.DeviceMessage>> entry :
                 deviceIdToActor.entrySet()) {
-            context.watchWith(entry.getValue(), new DeviceTerminated(entry.getKey()));
+            getContext().watchWith(entry.getValue(), new DeviceTerminated(entry.getKey()));
             entry.getValue().tell(new DeviceProtocol.ReadTemperature(0L, respondTemperatureAdapter));
         }
         stillWaiting = new HashSet<>(deviceIdToActor.keySet());

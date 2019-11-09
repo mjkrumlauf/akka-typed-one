@@ -42,15 +42,14 @@ public class DeviceGroup extends AbstractBehavior<DeviceGroupMessage> {
     // #device-terminated
 
 
-    private final ActorContext<DeviceGroupMessage> context;
     private final String groupId;
     private final Map<String, ActorRef<DeviceMessage>> deviceIdToActor = new HashMap<>();
 
 
     public DeviceGroup(ActorContext<DeviceGroupMessage> context, String groupId) {
-        this.context = context;
+        super(context);
         this.groupId = groupId;
-        context.getLog().info("DeviceGroup {} started", groupId);
+        getContext().getLog().info("DeviceGroup {} started", groupId);
     }
 
 
@@ -60,21 +59,21 @@ public class DeviceGroup extends AbstractBehavior<DeviceGroupMessage> {
             if (deviceActor != null) {
                 trackMsg.replyTo.tell(new DeviceRegistered(deviceActor));
             } else {
-                context.getLog().info("Creating device actor for {}", trackMsg.deviceId);
+                getContext().getLog().info("Creating device actor for {}", trackMsg.deviceId);
                 deviceActor =
-                        context.spawn(
+                        getContext().spawn(
                                 Device.createBehavior(groupId, trackMsg.deviceId), "device-" + trackMsg.deviceId);
                 // #device-group-register
-                context.watchWith(
+                getContext().watchWith(
                         deviceActor, new DeviceTerminated(deviceActor, groupId, trackMsg.deviceId));
                 // #device-group-register
                 deviceIdToActor.put(trackMsg.deviceId, deviceActor);
                 trackMsg.replyTo.tell(new DeviceRegistered(deviceActor));
             }
         } else {
-            context
+            getContext()
                     .getLog()
-                    .warning(
+                    .warn(
                             "Ignoring TrackDevice request for {}. This actor is responsible for {}.",
                             groupId,
                             this.groupId);
@@ -95,7 +94,7 @@ public class DeviceGroup extends AbstractBehavior<DeviceGroupMessage> {
 
 
     private DeviceGroup onTerminated(DeviceTerminated t) {
-        context.getLog().info("Device actor for {} has been terminated", t.deviceId);
+        getContext().getLog().info("Device actor for {} has been terminated", t.deviceId);
         deviceIdToActor.remove(t.deviceId);
         return this;
     }
@@ -118,7 +117,7 @@ public class DeviceGroup extends AbstractBehavior<DeviceGroupMessage> {
 
 
     private DeviceGroup postStop() {
-        context.getLog().info("DeviceGroup {} stopped", groupId);
+        getContext().getLog().info("DeviceGroup {} stopped", groupId);
         return this;
     }
 }

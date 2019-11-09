@@ -13,11 +13,9 @@ public class IotSupervisor extends AbstractBehavior<Void> {
         return Behaviors.setup(IotSupervisor::new);
     }
 
-    private final ActorContext<Void> context;
-
     private IotSupervisor(ActorContext<Void> context) {
-        this.context = context;
-        context.getLog().info("IoT Application started");
+        super(context);
+        getContext().getLog().info("IoT Application started");
     }
 
     // No need to handle any messages
@@ -27,7 +25,7 @@ public class IotSupervisor extends AbstractBehavior<Void> {
     }
 
     private IotSupervisor postStop() {
-        context.getLog().info("IoT Application stopped");
+        getContext().getLog().info("IoT Application stopped");
         return this;
     }
 }

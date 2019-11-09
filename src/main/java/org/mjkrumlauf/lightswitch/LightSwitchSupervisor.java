@@ -13,11 +13,9 @@ public class LightSwitchSupervisor extends AbstractBehavior<Void> {
         return Behaviors.setup(LightSwitchSupervisor::new);
     }
 
-    private final ActorContext<Void> context;
-
     private LightSwitchSupervisor(ActorContext<Void> context) {
-        this.context = context;
-        this.context.getLog().info("LightSwitch Application started");
+        super(context);
+        this.getContext().getLog().info("LightSwitch Application started");
     }
 
     @Override
@@ -28,7 +26,7 @@ public class LightSwitchSupervisor extends AbstractBehavior<Void> {
     }
 
     private LightSwitchSupervisor postStop() {
-        context.getLog().info("LightSwitch Application stopped");
+        getContext().getLog().info("LightSwitch Application stopped");
         return this;
     }
 }

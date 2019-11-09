@@ -33,12 +33,11 @@ public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
         }
     }
 
-    private final ActorContext<DeviceManagerMessage> context;
     private final Map<String, ActorRef<DeviceGroupMessage>> groupIdToActor = new HashMap<>();
 
     public DeviceManager(ActorContext<DeviceManagerMessage> context) {
-        this.context = context;
-        context.getLog().info("DeviceManager started");
+        super(context);
+        getContext().getLog().info("DeviceManager started");
     }
 
     private DeviceManager onTrackDevice(RequestTrackDevice trackMsg) {
@@ -47,10 +46,10 @@ public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
         if (ref != null) {
             ref.tell(trackMsg);
         } else {
-            context.getLog().info("Creating device group actor for {}", groupId);
+            getContext().getLog().info("Creating device group actor for {}", groupId);
             ActorRef<DeviceGroupMessage> groupActor =
-                    context.spawn(DeviceGroup.createBehavior(groupId), "group-" + groupId);
-            context.watchWith(groupActor, new DeviceGroupTerminated(groupId));
+                    getContext().spawn(DeviceGroup.createBehavior(groupId), "group-" + groupId);
+            getContext().watchWith(groupActor, new DeviceGroupTerminated(groupId));
             groupActor.tell(trackMsg);
             groupIdToActor.put(groupId, groupActor);
         }
@@ -68,7 +67,7 @@ public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
     }
 
     private DeviceManager onTerminated(DeviceGroupTerminated t) {
-        context.getLog().info("Device group actor for {} has been terminated", t.groupId);
+        getContext().getLog().info("Device group actor for {} has been terminated", t.groupId);
         groupIdToActor.remove(t.groupId);
         return this;
     }
@@ -83,7 +82,7 @@ public class DeviceManager extends AbstractBehavior<DeviceManagerMessage> {
     }
 
     private DeviceManager postStop() {
-        context.getLog().info("DeviceManager stopped");
+        getContext().getLog().info("DeviceManager stopped");
         return this;
     }
 }

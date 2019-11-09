@@ -26,16 +26,15 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
         return Behaviors.setup(LightSwitch::new);
     }
 
-    private final ActorContext<LightSwitchMessage> context;
     private final UUID switchId;
 
     private SwitchState lastSwitchState;
 
     private LightSwitch(ActorContext<LightSwitchMessage> context) {
-        this.context = context;
+        super(context);
         this.switchId = UUID.randomUUID();
         this.lastSwitchState = OFF;
-        this.context.getLog().info("LightSwitch actor {} started", switchId);
+        getContext().getLog().info("LightSwitch actor {} started", switchId);
     }
 
     @Override
@@ -54,13 +53,13 @@ public class LightSwitch extends AbstractBehavior<LightSwitchMessage> {
     }
 
     private Behavior<LightSwitchMessage> getState(GetStateRequest msg) {
-        context.getLog().info("LightSwitch is {}, requestId {}", lastSwitchState, msg.requestId);
+        getContext().getLog().info("LightSwitch is {}, requestId {}", lastSwitchState, msg.requestId);
         msg.replyTo.tell(new GetStateResponse(msg.requestId, lastSwitchState));
         return this;
     }
 
     private Behavior<LightSwitchMessage> postStop() {
-        context.getLog().info("LightSwitch actor {} stopped", switchId);
+        getContext().getLog().info("LightSwitch actor {} stopped", switchId);
         return Behaviors.stopped();
     }
 

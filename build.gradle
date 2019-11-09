@@ -3,7 +3,7 @@
  */
 
 plugins {
-    id 'java'
+    id "java"
 }
 
 repositories {
@@ -12,11 +12,13 @@ repositories {
 }
 
 dependencies {
-    compile 'com.typesafe.akka:akka-actor-typed_2.13:2.5.26'
-    testCompile 'com.typesafe.akka:akka-actor-testkit-typed_2.13:2.5.26'
-    testCompile 'junit:junit:4.12'
+    ext.akkaVersion = "2.6.0"
+    implementation "com.typesafe.akka:akka-actor-typed_2.13:${akkaVersion}"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
+    testImplementation "com.typesafe.akka:akka-actor-testkit-typed_2.13:${akkaVersion}"
+    testImplementation "junit:junit:4.12"
 }
 
-group = 'org.mjkrumlauf'
-version = '1.0'
-sourceCompatibility = '11'
+group = "org.mjkrumlauf"
+version = "1.0"
+sourceCompatibility = "11"

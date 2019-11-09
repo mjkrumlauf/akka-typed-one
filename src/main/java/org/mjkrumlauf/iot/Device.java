@@ -22,18 +22,17 @@ public class Device extends AbstractBehavior<DeviceMessage> {
         return Behaviors.setup(context -> new Device(context, groupId, deviceId));
     }
 
-    private final ActorContext<DeviceMessage> context;
     private final String groupId;
     private final String deviceId;
 
     private Optional<Double> lastTemperatureReading = Optional.empty();
 
     public Device(ActorContext<DeviceMessage> context, String groupId, String deviceId) {
-        this.context = context;
+        super(context);
         this.groupId = groupId;
         this.deviceId = deviceId;
 
-        context.getLog().info("Device actor {}-{} started", groupId, deviceId);
+        getContext().getLog().info("Device actor {}-{} started", groupId, deviceId);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class Device extends AbstractBehavior<DeviceMessage> {
     }
 
     private Behavior<DeviceMessage> recordTemperature(RecordTemperature r) {
-        context.getLog().info("Recorded temperature reading {} with {}", r.value, r.requestId);
+        getContext().getLog().info("Recorded temperature reading {} with {}", r.value, r.requestId);
         lastTemperatureReading = Optional.of(r.value);
         r.replyTo.tell(new TemperatureRecorded(r.requestId));
         return this;
@@ -59,7 +58,7 @@ public class Device extends AbstractBehavior<DeviceMessage> {
     }
 
     private Behavior<DeviceMessage> postStop() {
-        context.getLog().info("Device actor {}-{} stopped", groupId, deviceId);
+        getContext().getLog().info("Device actor {}-{} stopped", groupId, deviceId);
         return Behaviors.stopped();
     }
 }
