@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    ext.akkaVersion = "2.6.0"
+    ext.akkaVersion = "2.6.9"
     implementation "com.typesafe.akka:akka-actor-typed_2.13:${akkaVersion}"
     implementation "ch.qos.logback:logback-classic:1.2.3"
     testImplementation "com.typesafe.akka:akka-actor-testkit-typed_2.13:${akkaVersion}"
